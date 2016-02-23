@@ -4,6 +4,22 @@ from fractions import gcd
 from operator import itemgetter
 import time
 
+''' 
+    Hero's formula for the area of a triangle given the three sides a,b,c is:
+        sqrt(s(s-a)(s-b)(s-c))
+    Where s is half the perimeter of the triangle
+    
+    Heronian triangles are triangles whose sides and area are integers
+        i.e. Triangle with sides 3,4,5 has area 6
+            Note: any triangle with sides that are multiple of 3,4,5 (i.e. 6,8,10)
+                    will also be a Heronian triangle
+                    
+    Primitive Heronian triangles have a gcd of all three sides of 1
+        (see implementation of gcd3)
+    
+    see: http://rosettacode.org/wiki/Heronian_triangles#Python
+'''
+
 def hero(a,b,c):
     s = calcS(a,b,c)
     A = math.sqrt(s*(s-a)*(s-b)*(s-c))
@@ -33,6 +49,9 @@ def printResults(heronianList,maxside):
     return
 
 def generateTriangles(maxside):
+    '''
+        Code taken from http://rosettacode.org/wiki/Heronian_triangles#Python
+    '''
     h = [(a,b,c) for a,b,c in product(range(1,maxside+1),repeat=3)
          if a <= b <= c and a+b > c and gcd3(a,b,c) == 1 and
          isHeronian(a,b,c)]
@@ -49,6 +68,11 @@ def generateTriangles(maxside):
 ##                    if hero(*sides) == 210))
 
 def compareRuntime():
+    '''
+        Made this to compare the example on Rosetta code to my own implementation
+        
+        Mine averaged about 2.07sec, Rosetta code averaged 2.11sec
+    '''
     number_of_trials = 10
 
     #Generate Triangles
